@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  生效星期  -->
+    <string-array name="xposed_scope">
+        <item>com.xreal.evapro.nebula</item>
+    </string-array>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textBloardId"
+        android:layout_marginTop="200px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="默认信息"
+        android:textColor="#F00"
+        android:textSize="25sp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="call_native_function"
+        android:text="执行native方法(测试hook效果)" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="dobby_load"
+        android:text="加载dobby hook" />
+
+</LinearLayout>
