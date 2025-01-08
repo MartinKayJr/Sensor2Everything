@@ -12,6 +12,17 @@ cmake_minimum_required(VERSION 3.22.1)
 # build script scope).
 project("cursor2everything")
 
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#
+## 这里指定静态链接，生成一个so;默认为 ON，生成两个so
+#set(GENERATE_SHARED OFF)
+#set(DDOBBY_DEBUG OFF)
+## 指定 dobby 库目录
+#set(DOBBY_SOURCE_DIR Dobby)
+#add_subdirectory(${DOBBY_SOURCE_DIR} dobby.out)
+
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -25,11 +36,13 @@ project("cursor2everything")
 # System.loadLibrary() and pass the name of the library defined here;
 # for GameActivity/NativeActivity derived applications, the same library name must be
 # used in the AndroidManifest.xml file.
-find_package(bytehook REQUIRED CONFIG)
+find_package(dobby REQUIRED CONFIG)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED
     # List C/C++ source files with relative paths to this CMakeLists.txt.
     cursor2everything.cpp
+    elf_util.cpp
+    mouse_hook.cpp
 )
 
 # Specifies libraries CMake should link to your target library. You
@@ -37,6 +50,6 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
 # build script, prebuilt third-party libraries, or Android system libraries.
 target_link_libraries(${CMAKE_PROJECT_NAME}
     # List libraries link to the target library
-    bytehook::bytehook
     android
     log)
+target_link_libraries(${CMAKE_PROJECT_NAME} dobby::dobby)

@@ -20,12 +20,39 @@ android {
                 cppFlags += ""
             }
         }
-        //noinspection ChromeOsAbiSupport
-        ndk.abiFilters += arrayOf("arm64-v8a", "armeabi-v7a")
+        ndk {
+            abiFilters.clear()
+            abiFilters.addAll(listOf("arm64-v8a", "armeabi-v7a"))
+        }
     }
 
     packaging {
-        pickFirsts += arrayOf("**/libbytehook.so")
+        jniLibs {
+            useLegacyPackaging = true
+            excludes += "lib/armeabi/**"
+        }
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/*"
+            excludes += "/META-INF/NOTICE.txt"
+            excludes += "/META-INF/DEPENDENCIES.txt"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/LICENSE"
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/notice.txt"
+            excludes += "/META-INF/dependencies.txt"
+            excludes += "/META-INF/LGPL2.1"
+            excludes += "/META-INF/ASL2.0"
+            excludes += "/META-INF/INDEX.LIST"
+            excludes += "/META-INF/io.netty.versions.properties"
+            excludes += "/META-INF/INDEX.LIST"
+            excludes += "/META-INF/LICENSE.txt"
+            excludes += "/META-INF/license.txt"
+            excludes += "/META-INF/*.kotlin_module"
+            excludes += "/META-INF/services/reactor.blockhound.integration.BlockHoundIntegration"
+            excludes += "lib/armeabi/**"
+            excludes += "lib/x86/**"
+        }
     }
 
     buildTypes {
@@ -37,8 +64,49 @@ android {
             )
         }
     }
+
+    android.applicationVariants.all {
+        outputs.map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
+            .forEach {
+                val abiName = when (val abi = it.outputFileName.split("-")[1].split(".apk")[0]) {
+                    "app" -> "all"
+                    "x64" -> "x86_64"
+                    else -> abi
+                }
+                it.outputFileName = "c2e-v${versionName}-${abiName}.apk"
+            }
+    }
+
+    flavorDimensions.add("mode")
+
+    productFlavors {
+        create("app") {
+            dimension = "mode"
+            ndk {
+                println("Full architecture and full compilation.")
+                abiFilters.add("arm64-v8a")
+                abiFilters.add("x86_64")
+            }
+        }
+        create("arm64") {
+            dimension = "mode"
+            ndk {
+                println("Full compilation of arm64 architecture")
+                abiFilters.add("arm64-v8a")
+            }
+        }
+        create("x64") {
+            dimension = "mode"
+            ndk {
+                println("Full compilation of x64 architecture")
+                abiFilters.add("x86_64")
+            }
+        }
+    }
+
     buildFeatures {
         prefab = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -68,5 +136,5 @@ dependencies {
     compileOnly(libs.xposed.api)
     implementation(libs.ezXHelper)
     implementation(libs.fastjson)
-    implementation(libs.bytehook)
+    implementation("io.github.vvb2060.ndk:dobby:1.2")
 }

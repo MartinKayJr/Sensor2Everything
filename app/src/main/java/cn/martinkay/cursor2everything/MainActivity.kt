@@ -3,13 +3,19 @@ package cn.martinkay.cursor2everything
 import android.hardware.SensorEventCallback
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.getSystemService
-import com.bytedance.android.bytehook.ByteHook
+import androidx.lifecycle.lifecycleScope
+import cn.martinkay.cursor2everything.service.ServiceHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,9 +32,9 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         showText = findViewById(R.id.textBloardId)
-        ByteHook.init();
-        val sensor = this.getSystemService("sensor") as SensorManager
-        sensor.getDefaultSensor(35)
+
+        val initC2eLibrary = ServiceHelper.initC2eLibrary(this@MainActivity)
+        showToast("初始化so状态:$initC2eLibrary")
     }
 
 
@@ -42,4 +48,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     external fun call_test_function(): String?
+
+    private fun showToast(message: String) = lifecycleScope.launch(Dispatchers.Main) {
+        Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+    }
 }

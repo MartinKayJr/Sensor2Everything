@@ -1,28 +1,20 @@
 #include <jni.h>
 #include <string>
-#include "bytehook.h"
 #include "Util.h"
+#include "mouse_hook.h"
 
-static void (*orig_move)(float deltaX, float deltaY);
+JNIEXPORT jint JNICALL
+JNI_OnLoad(JavaVM* vm, void* reserved) {
+    JNIEnv* env;
+    if (vm->GetEnv((void**) &env, JNI_VERSION_1_6) != JNI_OK) {
+        return JNI_ERR;
+    }
 
-static void my_libinputservice_move(float deltaX, float deltaY) {
-    // 执行 stack 清理（不可省略）
-    BYTEHOOK_STACK_SCOPE();
-    LOGE("my_libinputservice_move: deltaX=%f, deltaY=%f", deltaX, deltaY);
-    BYTEHOOK_CALL_PREV(my_libinputservice_move, deltaX, deltaY);
+    doMouseHook();
+
+    return JNI_VERSION_1_6;
 }
 
-__attribute__((constructor)) static void dylibInject() {
-    bytehook_get_records(BYTEHOOK_RECORD_ITEM_ALL);
-    LOGE("my_libinputservice_move: start");
-    bytehook_hook_all(
-            NULL
-            , "_ZN7android21MouseCursorController4moveEff"
-            , reinterpret_cast<void *>(my_libinputservice_move)
-            , NULL
-            , NULL);
-    LOGE("my_libinputservice_move: over");
-}
 
 extern "C"
 JNIEXPORT jstring JNICALL

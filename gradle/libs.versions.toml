@@ -25,8 +25,6 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 ezXHelper = { module = "com.github.kyuubiran:EzXHelper", version = "2.2.0" }
 fastjson = { module = "com.alibaba:fastjson", version = "1.1.72.android" }
 
-bytehook = { module = "com.bytedance:bytehook", version = "1.1.0"}
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

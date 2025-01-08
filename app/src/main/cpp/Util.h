@@ -5,7 +5,7 @@ extern "C" {
 #endif
 
 #define LOGOPEN 1 //日志开关，1为开，其它为关
-#define LOG_TAG    "[CLOUDWISE-NDK]"
+#define LOG_TAG    "[Cursor2Everything]"
 #if(LOGOPEN == 1)
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 #define LOGE(...)  __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)

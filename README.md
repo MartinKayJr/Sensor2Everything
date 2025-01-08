@@ -1,5 +1,18 @@
 # Cursor2Everything
 
+InputManagerService.LocalService  getCursorPosition
+```java
+        @Override
+public PointF getCursorPosition(int displayId) {
+    final float[] p = mNative.getMouseCursorPosition(displayId);
+    if (p == null || p.length != 2) {
+        throw new IllegalStateException("Failed to get mouse cursor position");
+    }
+    return new PointF(p[0], p[1]);
+}
+```
+
+
 ```java
 private final SensorEventListener mListener = new SensorEventCallback() { // from class: ai.nreal.sensorcalib.BiasUtils.1
         private long mLastGyroTimestamp;
