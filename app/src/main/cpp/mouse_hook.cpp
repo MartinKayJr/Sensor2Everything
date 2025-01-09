@@ -25,7 +25,11 @@ int64_t SensorEventQueueWrite(void *tube, void *events, int64_t numEvents) {
     return OriginalSensorEventQueueWrite(tube, events, numEvents);
 }
 
+// ConvertToSensorEvent https://cs.android.com/android/platform/superproject/+/android14-qpr3-release:hardware/interfaces/sensors/aidl/convert/convert.cpp;l=86?q=convertToSensorEvent&ss=android%2Fplatform%2Fsuperproject
 // https://developer.android.google.cn/develop/sensors-and-location/sensors/sensors_motion?hl=zh-cn
+// Event src https://cs.android.com/android/platform/superproject/+/android14-qpr3-release:hardware/interfaces/sensors/aidl/android/hardware/sensors/Event.aidl
+// SensorType https://cs.android.com/android/platform/superproject/+/android14-qpr3-release:hardware/interfaces/sensors/aidl/android/hardware/sensors/SensorType.aidl
+// sensor.h dst https://android.googlesource.com/platform/hardware/libhardware/+/refs/heads/main/include_all/hardware/sensors.h
 void ConvertToSensorEvent(void *src, void *dst) {
     if (enableSensorHook) {
         // 传感器标识符
