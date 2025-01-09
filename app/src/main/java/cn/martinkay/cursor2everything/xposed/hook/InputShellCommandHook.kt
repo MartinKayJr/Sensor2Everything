@@ -1,5 +1,6 @@
 package cn.martinkay.cursor2everything.xposed.hook
 
+import cn.martinkay.cursor2everything.dobby.Dobby
 import cn.martinkay.cursor2everything.root.ShellUtils
 import cn.martinkay.cursor2everything.service.ServiceHelper
 import cn.martinkay.cursor2everything.xposed.MainHook
@@ -49,6 +50,7 @@ object InputShellCommandHook : BaseHook() {
                                 ShellUtils.setEnforceMode(false) // 关闭SELinux
                                 if(ServiceHelper.loadC2eLibrary(path)) {
                                     printWriter.println("sensor劫持成功")
+                                    Dobby.setStatus(true)
                                 } else {
                                     printWriter.println("sensor无法劫持传感器")
                                 }

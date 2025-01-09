@@ -25,7 +25,7 @@ int64_t SensorEventQueueWrite(void *tube, void *events, int64_t numEvents) {
     return OriginalSensorEventQueueWrite(tube, events, numEvents);
 }
 
-
+// https://developer.android.google.cn/develop/sensors-and-location/sensors/sensors_motion?hl=zh-cn
 void ConvertToSensorEvent(void *src, void *dst) {
     if (enableSensorHook) {
         // 传感器标识符
@@ -43,9 +43,11 @@ void ConvertToSensorEvent(void *src, void *dst) {
         *(int32_t *)((char*)dst + 12) = sensorType;
         *(int8_t *)((char*)dst + 28) = sensorType;
 
+        // 一次步数数据
         if (sensorType == 18) {
             *(float *)((char*)dst + 16) = -1.0;
         } else if (sensorType == 19) {
+            // 计步历史累加值
             *(int64_t *)((char*)dst + 16) = -1;
         } else {
             *(float *)((char*)dst + 16) = -1.0;
