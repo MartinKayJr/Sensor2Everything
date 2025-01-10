@@ -56,6 +56,22 @@ object InputShellCommandHook : BaseHook() {
                                 }
                             }
                         }
+                        if ("hook" == type) {
+                            val result = Dobby.hook()
+                            if (result == 0) {
+                                printWriter.println("sensor hook成功")
+                            } else {
+                                printWriter.println("sensor hook失败")
+                            }
+                        }
+                        if ("unhook" == type) {
+                            val result = Dobby.unHook()
+                            if (result == 0) {
+                                printWriter.println("sensor unhook成功")
+                            } else {
+                                printWriter.println("sensor unhook失败")
+                            }
+                        }
                         it.result = 0
                     }
                 }

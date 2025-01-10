@@ -13,7 +13,7 @@ JNI_OnLoad(JavaVM *vm, void *reserved) {
         return JNI_ERR;
     }
 
-    doMouseHook();
+    doSensorHook();
 
     return JNI_VERSION_1_6;
 }
@@ -32,4 +32,17 @@ JNIEXPORT void JNICALL
 Java_cn_martinkay_cursor2everything_dobby_Dobby_setStatus(JNIEnv *env, jobject thiz,
                                                           jboolean status) {
     enableSensorHook = status;
+}
+
+
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_cn_martinkay_cursor2everything_dobby_Dobby_unHook(JNIEnv *env, jobject thiz) {
+    return doUnSensorHook();
+}
+extern "C"
+JNIEXPORT jint JNICALL
+Java_cn_martinkay_cursor2everything_dobby_Dobby_hook(JNIEnv *env, jobject thiz) {
+    return doSensorHook();
 }

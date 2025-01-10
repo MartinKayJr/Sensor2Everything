@@ -12,6 +12,8 @@ typedef int64_t (*OriginalSensorEventQueueWriteType)(void*, void*, int64_t);
 // void convertToSensorEvent(const Event &src, sensors_event_t *dst);
 typedef void (*OriginalConvertToSensorEventType)(void*, void*);
 
-void doMouseHook();
+int doSensorHook();
+
+int doUnSensorHook();
 
 #endif //CURSOR2EVERYTHING_MOUSE_HOOK_H
