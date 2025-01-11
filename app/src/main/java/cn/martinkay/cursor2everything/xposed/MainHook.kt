@@ -13,7 +13,6 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Member
 import java.lang.reflect.Method
 
-private const val PACKAGE_NAME_HOOKED = "com.xreal.evapro.nebula"
 private const val TAG = "Cursor2Everything"
 
 class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
@@ -51,7 +50,7 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
     }
 
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
-        if (lpparam.packageName == PACKAGE_NAME_HOOKED || ("android" == lpparam.packageName) && (lpparam.processName == "android")) {
+        if (("android" == lpparam.packageName) && (lpparam.processName == "android")) {
             EzXHelper.initHandleLoadPackage(lpparam)
             EzXHelper.setLogTag(TAG)
             EzXHelper.setToastTag(TAG)
