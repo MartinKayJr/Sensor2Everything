@@ -1,5 +1,14 @@
 # Sensor2Everything
 
+# 使用方法
+通过adb命令输入input c2e init进行hook初始化
+
+input c2e unhook 解除hook
+
+input c2e hook 再次hook
+
+
+
 ## 陀螺仪传感器
 ```json
 {
